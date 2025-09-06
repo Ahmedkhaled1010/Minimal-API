@@ -1,5 +1,7 @@
 
 using Microsoft.OpenApi.Models;
+using Minimal_API.NewFolder.Classes;
+using Minimal_API.NewFolder.Classes.Model;
 
 
 namespace Minimal_API
@@ -20,6 +22,7 @@ namespace Minimal_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PIZZA API", Description = "Keep track of your Products", Version = "v1" });
             });
+            PizzaServices pizzaServices = new PizzaServices();
 
             var app = builder.Build();
 
@@ -37,7 +40,11 @@ namespace Minimal_API
             }
             app.UseHttpsRedirection();
 
-           
+            app.MapGet("/pizzas/{id}", (int id) => pizzaServices.GetPizza(id));
+            app.MapGet("/pizzas", () => pizzaServices.GetPizzas());
+            app.MapPost("/pizzas", (Pizza pizza) => pizzaServices.CreatePizza(pizza));
+            app.MapPut("/pizzas", (Pizza pizza) => pizzaServices.UpdatePizza(pizza));
+            app.MapDelete("/pizzas/{id}", (int id) => pizzaServices.RemovePizza(id));
 
             app.Run();
         }
