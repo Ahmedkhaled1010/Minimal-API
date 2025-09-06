@@ -8,7 +8,8 @@ namespace Minimal_API.NewFolder.Interfaces
         Task<Pizza?> GetByIdAsync(int id);
         Task AddAsync(Pizza entity);
 
-        void Update(Pizza entity);
+        Task Update(Pizza entity);
         void Delete(Pizza entity);
+        Task SaveChangesAsync();
     }
 }

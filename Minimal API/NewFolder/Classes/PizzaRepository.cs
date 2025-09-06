@@ -28,9 +28,14 @@ namespace Minimal_API.NewFolder.Classes
            return await context.Pizzas.FindAsync(id);
         }
 
-        public void Update(Pizza entity)
+        public async Task Update(Pizza entity)
         {
-               context.Pizzas.Update(entity);
+            var pizza =await context.Pizzas.FirstOrDefaultAsync(p => p.Id == entity.Id);
+            if (pizza is not null)
+            {
+                pizza.Name = entity.Name;
+            }
+
         }
 
         public async Task SaveChangesAsync()
