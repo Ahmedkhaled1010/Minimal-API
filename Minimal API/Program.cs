@@ -49,13 +49,63 @@ namespace Minimal_API
             }
             app.UseHttpsRedirection();
 
-            app.MapGet("/pizzas/{id}", (int id) => pizzaServices.GetPizza(id));
+            /*app.MapGet("/pizzas/{id}", (int id) => pizzaServices.GetPizza(id));
             app.MapGet("/pizzas", () => pizzaServices.GetPizzas());
             app.MapPost("/pizzas", (Pizza pizza) => pizzaServices.CreatePizza(pizza));
             app.MapPut("/pizzas", (Pizza pizza) => pizzaServices.UpdatePizza(pizza));
-            app.MapDelete("/pizzas/{id}", (int id) => pizzaServices.RemovePizza(id));
+            app.MapDelete("/pizzas/{id}", (int id) => pizzaServices.RemovePizza(id));*/
+
+            app.MapGet("/pizzas/{id}", async (int id, IPizzaServicesEF servicesEF) =>
+            {
+                try
+                {
+                    var pizza = await servicesEF.GetPizzaByIdAsync(id);
+                    return Results.Ok(pizza);
+
+                }
+                catch(Exception e)
+                {
+                    return Results.NotFound();
+                }
 
 
+            });
+            app.MapGet("/pizzas", async (IPizzaServicesEF servicesEF) =>
+            {
+                var pizzas = await servicesEF.GetAllPizzaAsync();
+                return Results.Ok(pizzas);
+            });
+            app.MapPost("/pizzas", async (Pizza pizza, IPizzaServicesEF servicesEF) =>
+            {
+                await servicesEF.AddAsync(pizza);
+                return Results.Created($"/pizzas/", pizza);
+            });
+            app.MapPut("/pizzas", async (Pizza pizza, IPizzaServicesEF servicesEF) =>
+            {
+                try
+                {
+                    await servicesEF.Update(pizza);
+                    return Results.NoContent();
+                }
+                catch (Exception e)
+                {
+                    return Results.NotFound();
+                }
+              
+            });
+            app.MapDelete("/pizzas/{id}", async (int id, IPizzaServicesEF servicesEF) =>
+            {   try
+                {
+                    await servicesEF.Delete(id);
+                    return Results.NoContent();
+                }
+               
+                 catch(Exception e)
+                {
+                return Results.NotFound();
+            }
+
+        });
 
 
             app.Run();
