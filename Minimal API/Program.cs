@@ -1,6 +1,7 @@
 
 using Microsoft.OpenApi.Models;
 
+
 namespace Minimal_API
 {
     public class Program
@@ -17,7 +18,7 @@ namespace Minimal_API
             //   builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ATOS Todo API", Description = "Keep track of your tasks", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PIZZA API", Description = "Keep track of your Products", Version = "v1" });
             });
 
             var app = builder.Build();
@@ -34,10 +35,9 @@ namespace Minimal_API
 
 
             }
-
             app.UseHttpsRedirection();
 
-
+           
 
             app.Run();
         }
