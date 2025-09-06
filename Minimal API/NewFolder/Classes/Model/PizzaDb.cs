@@ -2,10 +2,10 @@
 {
     public class PizzaDb
     {
-        private  List<Pizza> _pizzas {  get; set; }
+        public  List<Pizza> pizzas {  get; set; }
         public PizzaDb()
         {
-            _pizzas = new List<Pizza>()
+            pizzas = new List<Pizza>()
    {
      new Pizza{ Id=1, Name="Montemagno, Pizza shaped like a great mountain" },
      new Pizza{ Id=2, Name="The Galloway, Pizza shaped like a submarine, silent but deadly"},
