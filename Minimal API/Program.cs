@@ -1,7 +1,9 @@
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Minimal_API.NewFolder.Classes;
 using Minimal_API.NewFolder.Classes.Model;
+using Minimal_API.NewFolder.Context;
 
 
 namespace Minimal_API
@@ -17,6 +19,10 @@ namespace Minimal_API
            // builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddDbContext<PizzaContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
             //   builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(c =>
             {
